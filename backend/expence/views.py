@@ -86,4 +86,25 @@ def editExpense(request,id):
             },status=200)
         except Exception as e:
             return JsonResponse({'message':"not ok"},status=400)
-        
+
+@csrf_exempt
+def deleteExpense(request,id):
+    if request.method=="DELETE":
+        try:
+            expense=Expense.objects.select_related('userId').get(id=id)
+            expense.delete()
+            return JsonResponse({'message':"deleted succssfully"},status=200)
+        except Exception as e:
+            return JsonResponse({'message':"Expenese not found"},status=400)
+
+from django.db.models import Sum
+def searchExpense(request,id):
+    fromDate=request.GET.get('from')
+    toDate=request.GET.get('to')
+    expenses=Expense.objects.filter(userId_id=id,ExpenceDate__range=[fromDate,toDate])
+    agg=expenses.aggregate(Sum('ExpenseCost'))   # {'ExpenseCost__sum':total}
+    total=agg['ExpenseCost__sum'] or 0
+    return JsonResponse({
+        'expenses':list(expenses.values()),
+        'total':total
+    })

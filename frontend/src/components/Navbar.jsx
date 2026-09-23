@@ -43,6 +43,9 @@ const Navbar = () => {
                                         <Link className="nav-link" to="/manageExpense"><i className="bi bi-gear me-2 text-white"></i>Manage Expense</Link>
                                     </li>
                                     <li className="nav-item">
+                                        <Link className="nav-link" to="/expenseReport"><i className="bi bi-file-earmark-bar-graph me-2 text-white"></i>Expense Report</Link>
+                                    </li>
+                                    <li className="nav-item">
                                         <Link className="nav-link" to="/changePassword"><i className="bi bi-key me-2 text-white"></i>Change Password</Link>
                                     </li>
                                     <button className="btn btn-danger" onClick={handleLogout}>
