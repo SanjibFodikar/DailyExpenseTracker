@@ -11,6 +11,7 @@ import Dashboard from './components/Dashboard'
 import AddExpense from './components/AddExpense'
 import ManageExpense from './components/ManageExpense'
 import ExpenseReport from './components/ExpenseReport'
+import ChangePassword from './components/ChangePassword'
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path='/addExpense' element={<AddExpense/>}></Route>
           <Route path='/manageExpense' element={<ManageExpense/>}></Route>
           <Route path='/expenseReport' element={<ExpenseReport/>}></Route>
+          <Route path='/changePassword' element={<ChangePassword/>}></Route>
       </Routes>
      </BrowserRouter>
     </>

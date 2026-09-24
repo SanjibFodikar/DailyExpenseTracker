@@ -108,3 +108,22 @@ def searchExpense(request,id):
         'expenses':list(expenses.values()),
         'total':total
     })
+
+@csrf_exempt
+def changePassword(request,id):
+    if request.method=="POST":
+        data=json.loads(request.body)
+        Email=data.get('Email')
+        newPassword=data.get('newPassword')
+        user=UserDetails.objects.filter(id=id,Email=Email).first()
+        if not user:
+           return JsonResponse({
+               'message':"Invalid Credentials"
+           },status=400)
+
+        user.Password=newPassword
+        user.save()
+        return JsonResponse({
+            'message':"Password Updated Successfully"
+        },status=200)
+        

@@ -7,5 +7,6 @@ urlpatterns = [
     path('manageExpense/<int:userId>/',views.manageExpense,name="manageExpense"),
     path('editExpense/<int:id>/',views.editExpense,name="editExpense"),
     path('deleteExpense/<int:id>/',views.deleteExpense,name="deleteExpense"),
-    path('searchExpense/<int:id>/',views.searchExpense,name="searchExpense")
+    path('searchExpense/<int:id>/',views.searchExpense,name="searchExpense"),
+    path('changePassword/<int:id>/',views.changePassword,name="changePassword")
 ]
