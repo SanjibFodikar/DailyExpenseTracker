@@ -85,7 +85,7 @@ const ManageExpense = () => {
     return (
         <>
             <ToastContainer />
-            <div className="container mt-5">
+            <div className="container" style={{marginTop:'100px'}}>
                 <div className="text-center">
                     <h2><i className="bi bi-exclamation-circle"></i> Manage Expense</h2>
                     <p className="text-primary">View , edit , delete your expense</p>

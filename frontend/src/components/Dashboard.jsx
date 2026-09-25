@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { data, useNavigate } from 'react-router-dom'
+import { Pie } from 'react-chartjs-2'
+import { Chart, ArcElement, Tooltip, Legend } from 'chart.js'
+Chart.register(ArcElement, Tooltip, Legend)
 
 const Dashboard = () => {
   const navigate = useNavigate()
@@ -15,6 +18,24 @@ const Dashboard = () => {
 
   const [expenses, setExpenses] = useState([])
 
+  const pieData = {
+    labels: expenses.map(exp => exp.ExpenseItem),
+    datasets: [
+      {
+        label: 'Expense Cost',
+        data: expenses.map(exp => parseFloat(exp.ExpenseCost)),
+        backgroundColor: [
+          'red',
+          'blue',
+          'purple',
+          '#00ff00',
+          'rgba(80, 10, 45, 0.5)'
+        ],
+        borderWidth: 3,
+      }
+    ]
+  }
+
   const fetchExpense = async (userId) => {
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/manageExpense/${userId}/`)
@@ -27,64 +48,64 @@ const Dashboard = () => {
     }
   }
 
-  const [todayTotal,settodayTotal]=useState(0)
-  const [yesterdayTotal,setyesterdayTotal]=useState(0)
-  const [last7DaysTotal,setlast7DaysTotal]=useState(0)
-  const [last30DaysTotal,setlast30DaysTotal]=useState(0)
-  const [currentYearTotal,setcurrentYearTotal]=useState(0)
-  const [grandTotal,setgrandTotal]=useState(0)
+  const [todayTotal, settodayTotal] = useState(0)
+  const [yesterdayTotal, setyesterdayTotal] = useState(0)
+  const [last7DaysTotal, setlast7DaysTotal] = useState(0)
+  const [last30DaysTotal, setlast30DaysTotal] = useState(0)
+  const [currentYearTotal, setcurrentYearTotal] = useState(0)
+  const [grandTotal, setgrandTotal] = useState(0)
 
-  const calculateTotals =(data)=> {
-      const today=new Date();
+  const calculateTotals = (data) => {
+    const today = new Date();
 
-      const yesterday=new Date();
-      yesterday.setDate(today.getDate()-1)
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1)
 
-      const last7Days=new Date();
-      last7Days.setDate(today.getDate()-7)
+    const last7Days = new Date();
+    last7Days.setDate(today.getDate() - 7)
 
-      const last30Days=new Date();
-      last30Days.setDate(today.getDate()-30)
+    const last30Days = new Date();
+    last30Days.setDate(today.getDate() - 30)
 
-      const currentYear = today.getFullYear()
+    const currentYear = today.getFullYear()
 
-      let todayTotal=0,totalAmount=0,yesterdayTotal=0,last7dayTotal=0,last30dayTotal=0,yearTotal=0
+    let todayTotal = 0, totalAmount = 0, yesterdayTotal = 0, last7dayTotal = 0, last30dayTotal = 0, yearTotal = 0
 
-      data.forEach(item => {
-          const expensedate=new Date(item.ExpenceDate)
-          totalAmount+=parseFloat(item.ExpenseCost) || 0;
-          if (expensedate.toDateString() === today.toDateString()) {
-             todayTotal+=parseFloat(item.ExpenseCost)
-          }
+    data.forEach(item => {
+      const expensedate = new Date(item.ExpenceDate)
+      totalAmount += parseFloat(item.ExpenseCost) || 0;
+      if (expensedate.toDateString() === today.toDateString()) {
+        todayTotal += parseFloat(item.ExpenseCost)
+      }
 
-          if (expensedate.toDateString() === yesterday.toDateString()) {
-             yesterdayTotal+=parseFloat(item.ExpenseCost) || 0
-          }
+      if (expensedate.toDateString() === yesterday.toDateString()) {
+        yesterdayTotal += parseFloat(item.ExpenseCost) || 0
+      }
 
-          if (expensedate>=last7Days) {
-             last7dayTotal+=parseFloat(item.ExpenseCost) || 0
-          }
+      if (expensedate >= last7Days) {
+        last7dayTotal += parseFloat(item.ExpenseCost) || 0
+      }
 
-          if (expensedate>=last30Days) {
-             last30dayTotal+=parseFloat(item.ExpenseCost) || 0
-          }
+      if (expensedate >= last30Days) {
+        last30dayTotal += parseFloat(item.ExpenseCost) || 0
+      }
 
-          if (expensedate.getFullYear() === currentYear) {
-            yearTotal+=parseFloat(item.ExpenseCost) || 0
-          }
+      if (expensedate.getFullYear() === currentYear) {
+        yearTotal += parseFloat(item.ExpenseCost) || 0
+      }
 
-      });
+    });
 
-      settodayTotal(todayTotal)
-      setyesterdayTotal(yesterdayTotal)
-      setlast7DaysTotal(last7dayTotal)
-      setlast30DaysTotal(last30dayTotal)
-      setcurrentYearTotal(yearTotal)
-      setgrandTotal(totalAmount)
+    settodayTotal(todayTotal)
+    setyesterdayTotal(yesterdayTotal)
+    setlast7DaysTotal(last7dayTotal)
+    setlast30DaysTotal(last30dayTotal)
+    setcurrentYearTotal(yearTotal)
+    setgrandTotal(totalAmount)
   }
 
   return (
-    <div>
+    <div style={{marginBottom:'50px',marginTop:'100px'}}>
       <div className="container text-center mt-4">
         <h2>Welcome, <span className='text-primary'>{userName}</span></h2>
         <p>Her's Your Expense Overview</p>
@@ -158,6 +179,12 @@ const Dashboard = () => {
 
         </div>
       </div>
+
+      <div style={{width:'400px',height:'400px',margin:'auto',textAlign:'center'}} className='mt-5'>
+        <h4>Expense Distribution</h4>
+        <Pie data={pieData}/>
+      </div>
+
     </div>
   )
 }

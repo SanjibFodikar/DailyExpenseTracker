@@ -52,7 +52,7 @@ const AddExpense = () => {
   return (
     <>
     <ToastContainer />
-            <div className="container mt-5">
+            <div className="container" style={{marginTop:'100px'}}>
                 <div className="text-center">
                     <h2 className="bi bi-person-plus-fill"> Create Expense</h2>
                     <p className="text-primary">Track Your New Spend</p>

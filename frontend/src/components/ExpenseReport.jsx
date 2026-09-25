@@ -32,7 +32,7 @@ function ExpenseReport() {
     return (
         <>
             <ToastContainer />
-            <div className="container mt-5">
+            <div className="container" style={{marginTop:'100px'}}>
                 <div className="text-center">
                     <h2 className="bi bi-calendar-date"> Datewise Expense Report</h2>
                     <p className="text-primary">Search and analyze your expense report between two days</p>
